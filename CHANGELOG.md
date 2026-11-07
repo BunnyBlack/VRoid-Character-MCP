@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased — mcjo79 capability migration
+
+- Menu receipts allow same-process create/open. Guarded graceful exit waits for process termination. Help and migration resources are available offline in English and Chinese. `run_batch` reports ordered per-call results and caps returned images at eight and 16 MiB.
+- Situation thumbnails require an acknowledged disposable copy and preserve restoration evidence. Registered custom files and catalog keys require one matching selectable native option. Audited garment item controls accept 0..100 in native slider units.
+- The fork registers 143 tools, retains the 103 baseline interfaces and recognizes the two verified VRoid Studio 2.16.0 packages alongside the two historical 2.14.0 builds.
+
+The fork adapts capabilities from `mcjo79/vroid-mcp` at `0dc7d5e` in the existing Python MCP / Frida / JavaScript implementation. [MIGRATION.md](MIGRATION.md) maps all 53 source tools to their target operations, including deliberately narrower behavior and the evidence for each row.
+
+- Ordinary VRM export reads the current settings, overlays supplied options and validates the staged artifact before publication. XWear export remains a separate operation.
+- Group controls, registered custom items, raster layers, materials and brush/procedural hair use the target's model identity and native write guards. Unsupported bindings are reported explicitly. A lost or ambiguous native write blocks replay.
+- Editor camera and transient facial preview are separate from saved character parameters. `screenshot_metadata` reports which capture path was used and its effective dimensions and framing.
+- A persistent, lab-local preset catalog supports offline search, annotations, thumbnail lookup and per-category framing. Scans can expose locked items without granting permission to apply them.
+
+Historical native results in the entries below belong to their stated revisions. See the [migration acceptance checklist](docs/superpowers/native-migration-acceptance.md) for the native edit, save/reopen, export and visual checks still required on a supported disposable lab.
+
 ## 0.5.0.dev0 — 2026-10-28 (development snapshot)
 
 Python package/runtime: `0.5.0.dev0`; npm agent/lockfile: `0.5.0-dev.0`.

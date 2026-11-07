@@ -882,6 +882,39 @@ globalThis.createParameterApi = H => {
         return node.n.method(getter).invoke();
     }
 
+    function existingHairGroupProperty(m, path) {
+        const missing=()=>Error('PROCEDURAL_EXISTING_PROPERTY_REQUIRED: select this exact group in the native Hair Design editor; no property was created and no write was attempted');
+        const hair=m.root.method('get_HairEditor').invoke();
+        const design=hair.method('get_DesignEditor').invoke();
+        if(!design||design.handle.isNull())throw missing();
+        if(design.class.type.name!=='VRoid.Studio.HairEditor.DesignEditor.ViewModel')throw missing();
+        const hairModel=hair.method('get_Model').invoke(),file=m.main.method('get_CurrentFile').invoke();
+        const action=m.main.method('get_ActionHandler').invoke();
+        const engineVM=design.field('_engineViewModel').value;
+        const same=(a,b)=>a&&b&&!a.handle.isNull()&&a.handle.equals(b.handle);
+        if(!same(design.field('_engine').value,m.engine)||!same(hairModel.field('_engine').value,m.engine)||
+            !same(engineVM.field('_model').value,m.engine)||!same(design.field('_model').value,hairModel)||
+            !same(design.field('_currentFileViewModel').value,file)||!same(design.field('_mainActionHandler').value,action)||
+            !same(design.method('get_Resources').invoke(),m.root.method('get_Resources').invoke()))throw missing();
+        const property=design.method('get_Property').invoke();
+        if(!property||property.handle.isNull()||property.class.type.name!==
+            'VRoid.Studio.HairEditor.DesignEditor.HairGroup.ViewModel.ProceduralHairGroupPropertyViewModel')throw missing();
+        if(!same(property.field('_engine').value,m.engine))throw missing();
+        const actual=property.field('_proceduralHairGroupPath').value;
+        for(const key of ['TransferableId','HairGroupId'])
+            if(text(actual.method('get_'+key).invoke())!==text(path.method('get_'+key).invoke()))throw missing();
+        // This property and its subscriptions belong to the native UI. Reuse it
+        // without CreateProperty, constructor calls, selection or subscription edits.
+        return property;
+    }
+
+    function hairCategoryBindings(m) {
+        return categories(m, 'hair').map(category => ({
+            category: lastSegment(text(category.method('get_TranslationKey').invoke())),
+            types: seq(category.field('_categoryModel').value.field('transferableTypes').value).map(text),
+        })).filter(binding => HAIR_PARTS.includes(binding.category));
+    }
+
     const activeModelOf = m => m.context.method('get_ActiveModel').invoke();
 
     function runQuery(m, queryClass, constructorArgs) {
@@ -1033,6 +1066,7 @@ globalThis.createParameterApi = H => {
     }
 
     return {
+        hairGroupHelpers: {hairDesignEditor, hairNodeList, existingHairGroupProperty, hairCategoryBindings, seq, boxArgument, readPoint},
         operations: {
             list_parameters: listDomain,
             set_parameters: writeDomain,

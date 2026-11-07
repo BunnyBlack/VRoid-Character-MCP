@@ -1,7 +1,7 @@
 # Licensing and project ancestry
 
-VRoid Character MCP is maintained at
-https://github.com/froz3ncore/VRoid-Character-MCP.
+This [BunnyBlack fork](https://github.com/BunnyBlack/VRoid-Character-MCP) adapts
+the [froz3ncore VRoid Character MCP](https://github.com/froz3ncore/VRoid-Character-MCP).
 
 ## Status: reimplementation complete
 
@@ -31,8 +31,8 @@ of the later revision.
 The historical rewrite was behaviour-driven: its then-published tool contract (86 tools and
 their JSON schemas) was captured before each step and compared afterwards, with
 unit tests, the read-only native domain check and a clean-lab run to an exported
-VRM as the other gates. `REWRITE.md` records the order and the gates. The current
-103-tool development contract and acceptance scope are described in [SCOPE.md](SCOPE.md).
+VRM as the other gates. `REWRITE.md` records the order and the gates. The later
+103-tool upstream baseline and its acceptance scope are described in [SCOPE.md](SCOPE.md).
 
 ## What the licence covers
 
@@ -58,3 +58,23 @@ archives stay local. The selected native screenshots under `assets/showcase/`
 are included as visual documentation; see that directory's README and
 SOURCES.json for their origins. They are excluded from the code's MIT grant
 and do not convey a licence to the characters, clothing or VRoid Studio.
+
+## mcjo79 capability migration
+
+The migration reference is [mcjo79/vroid-mcp](https://github.com/mcjo79/vroid-mcp)
+at commit `0dc7d5eb3cf27f7f943713960cac1b65f479a876`, whose MIT notice names
+Copyright (c) 2026 mcjo79 and vroid-mcp contributors. Its complete LICENSE is
+preserved by file-level copy in
+[licenses/mcjo79-0dc7d5e.txt](licenses/mcjo79-0dc7d5e.txt).
+[MIGRATION.md](MIGRATION.md) records source files, destination ownership and
+per-capability implementation/verification state. Runtime adaptations include
+ordinary export options, group and material editing, hair controls, camera
+capture, preset catalog storage and framing. The matrix distinguishes those
+adaptations from existing target behavior and records the limits of verification.
+
+The Python MCP, Frida and JavaScript architecture remains the control kernel.
+The source BepInEx/Harmony/HTTP runtime is not incorporated. This attribution
+does not replace the brainrom or Karylcode notices, change the historic
+unlicensed-baseline record, or grant rights to VRoid binaries, native preset
+images, user custom items or generated character assets. Catalog images must
+remain local unless separately licensed for redistribution.

@@ -3,14 +3,21 @@
 **English** · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md)
 
 A local MCP server that normally drives **one disposable copy of VRoid Studio** through
-the application's own managed API, with optional attachment to an existing session. It exposes 103 tools for character
+the application's own managed API, with optional attachment to an existing session. It exposes tools for character
 parameters, textures and local makeup, hair authoring, Dress-up assembly and
 VRM export — with no mouse automation, no OCR and no screen scraping.
 
-Status: **0.5.0.dev0 development snapshot** (npm: `0.5.0-dev.0`), **103 tools**.
-Local code and controlled native checks have passed; independent external-user
-acceptance is pending. This snapshot has no new stable release or release tag.
+Status: **0.5.0.dev0 development snapshot** (npm: `0.5.0-dev.0`), with no new stable release or tag.
+The fork exposes [143 tools](tools/TOOLS.md), including all 103 baseline interfaces. The [migration matrix](MIGRATION.md) maps each of the 53 source tools to its public entry points.
+It distinguishes implemented operations, offline tests and remaining limits. Earlier native runs cover the upstream baseline;
+the migrated operations still need [native, save/reopen, export and visual checks](docs/superpowers/native-migration-acceptance.md) on a physical lab copy under an eligible Windows test profile.
 Character art and sitting-skirt fit remain separate work. See [SCOPE.md](SCOPE.md).
+
+To try the migration, check out `feat/mcjo79-capability-migration` from
+`BunnyBlack/VRoid-Character-MCP`. For offline help call `get_help` with `{"topic":"migration","language":"en"}`. A cold server can answer
+`get_preset_framing({"category":"Clothing/Tops"})` without launching VRoid.
+`search_preset_cache` searches the local catalog; an empty result before the
+first live `sync_preset_cache` is expected.
 
 Validated copies support body, texture and Dress-up editing in one process.
 Native PNG decoding runs on Unity's main thread with deferred callbacks to avoid
@@ -93,8 +100,9 @@ See [existing sessions and ordinary export](ATTACHED_SESSION.md).
 ## Requirements
 
 - Windows.
-- VRoid Studio **2.14.0** (Unity 6000.0.62f1). Other builds are rejected: the
-  native bindings are version-specific.
+- VRoid Studio **2.16.0** (Steam or pixiv standalone) or a recognized **2.14.0**
+  package, using Unity 6000.0.62f1. See the [exact package identities and
+  outstanding live checks](docs/native-evidence/2026-11-07-vroid-216.md).
 - Python 3.10+, Git, Node.js and npm (for the Frida bridge dependency and JavaScript checks).
 
 ## Install
@@ -199,7 +207,7 @@ own report is not the evidence.
 
 ## Known limitations
 
-Latest code checks: **564 Python tests passed / 1 skipped** on Python 3.10 and 3.12,
+Before this migration, the upstream snapshot recorded **564 Python tests passed / 1 skipped** on Python 3.10 and 3.12,
 **ten JS suites**, **103 tools** and a 340-file source manifest. The earlier 99
 input schemas are unchanged; four raster-layer tools were added. F00 and M00
 each passed 11 dedicated layer checks, including cold persistence and actual
@@ -267,7 +275,7 @@ that finds inherited lines moved into new modules.
 | `agent/operations.js` | model, history, saving and capture dispatch |
 | `agent/parameters.js` | typed parameter bindings |
 | `tools/run_checks.ps1` | one-command acceptance with a JSON report |
-| `tools/TOOLS.md` | generated reference for all 103 tools |
+| `tools/TOOLS.md` | generated tool reference; `tools/list` gives the schemas served by a running checkout |
 | `SCOPE.md` | must-do, may-skip and out-of-scope for 0.4.x |
 | `REWRITE.md` | rewrite ledger and provenance gates |
 | `CHANGELOG.md` | release notes |
